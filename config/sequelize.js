@@ -27,25 +27,15 @@ const Attribute = sequelize.import('../server/models/attribute.model');
 const Value = sequelize.import('../server/models/value.model');
 //const User = sequelize.import('../server/models/user.model');
 
-// Threads
+
 Type.hasMany(Attribute);
 Type.hasMany(Value);
 
 Attribute.hasOne(Value)
 
 //User.hasOne(Value, {as: 'UU'})
-
 // Value.belongsTo(User);
 
-
-
-// Messages
-// Attribute.hasMany(Value);
-
-// Users
-// User.belongsToMany(Thread, {through: 'UserThread'});
-// User.belongsToMany(Mess
-// User.hasMany(UserThread);
 
 
 db.Type = Type;
