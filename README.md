@@ -1,0 +1,1 @@
+# amida-metadata-microservice
