@@ -28,13 +28,15 @@ const Value = sequelize.import('../server/models/value.model');
 //const User = sequelize.import('../server/models/user.model');
 
 
-Type.hasMany(Attribute);
-Type.hasMany(Value);
 
-Attribute.hasOne(Value)
+
 
 //User.hasOne(Value, {as: 'UU'})
-// Value.belongsTo(User);
+//Value.belongsTo(Type);
+//Value.belongsTo(Attribute);
+
+Type.hasMany(Attribute);
+Attribute.hasMany(Value)
 
 
 
