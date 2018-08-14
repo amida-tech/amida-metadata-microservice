@@ -4,32 +4,16 @@ import db from '../../config/sequelize';
 import APIError from '../helpers/APIError';
 
 const Type = db.Type;
-const Attribute = db.Attribute;
-const Value = db.Value;
-const Op = Sequelize.Op;
 
-function get(req, res, next) {
-    let { UUID, type } = req.params;
+
+function index(req, res, next) {
     // if (type === undefined){
     //   type = Post.findAll({
     //
     // }
 
     Type.findAll({
-    attributes: ['id','type'],
-    where: { id: type },
-    include: [{
-      model: Attribute, attributes: ['id','attribute'],
-      include: [{
-          model: Value,
-          attributes: ['id','value'],
-          where: {
-            UUID
-          },
-          required: false
-        }]
-      }],
-
+         order: [['id','ASC']]
     })
     .then((messages) => {
         if (messages.length === 0) {
@@ -42,4 +26,4 @@ function get(req, res, next) {
     .catch(next);
 }
 
-export default { get };
+export default { index };

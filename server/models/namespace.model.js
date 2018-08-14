@@ -1,21 +1,16 @@
 
 module.exports = (sequelize, DataTypes) => {
-    const Value = sequelize.define('Value', {
+    const Namespace = sequelize.define('Namespace', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        value: {
+        namespace: {
             type: DataTypes.STRING,
-            allowNull: false,
-        },
-        UUID: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
             allowNull: false,
         },
     });
 
-    return Value;
+    return Namespace;
 };

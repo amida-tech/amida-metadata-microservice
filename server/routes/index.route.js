@@ -1,5 +1,6 @@
 import express from 'express';
-import valueRoutes from './value.route';
+import namespaceRoutes from './namespace.route';
+import attributeRoutes from './attribute.route';
 import p from '../../package';
 
 const router = express.Router(); // eslint-disable-line new-cap
@@ -12,8 +13,8 @@ router.get(`${baseURL}/health-check`, (req, res) =>
   res.send('OK')
 );
 
-router.use(`${baseURL}/type`, typeRoutes);
 // router.use(`${baseURL}/attribute`, attributeRoutes);
-router.use(`${baseURL}/value`, valueRoutes);
+router.use(`${baseURL}/namespace`, namespaceRoutes);
+router.use(`${baseURL}/attribute`, attributeRoutes);
 
 export default router;

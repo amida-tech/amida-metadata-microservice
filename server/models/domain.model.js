@@ -1,16 +1,15 @@
 
 module.exports = (sequelize, DataTypes) => {
-    const Type = sequelize.define('Type', {
+    const Domain = sequelize.define('Domain', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        type: {
+        domain: {
             type: DataTypes.STRING,
             allowNull: false,
         },
     });
-
-    return Type;
+    return Domain;
 };

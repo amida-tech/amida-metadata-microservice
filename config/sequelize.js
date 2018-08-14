@@ -22,9 +22,9 @@ const sequelize = new Sequelize(config.postgres.db,
         logging: dbLogging,
     });
 
-const Type = sequelize.import('../server/models/type.model');
+const Namespace = sequelize.import('../server/models/namespace.model');
+const Domain = sequelize.import('../server/models/domain.model');
 const Attribute = sequelize.import('../server/models/attribute.model');
-const Value = sequelize.import('../server/models/value.model');
 //const User = sequelize.import('../server/models/user.model');
 
 
@@ -32,17 +32,17 @@ const Value = sequelize.import('../server/models/value.model');
 
 
 //User.hasOne(Value, {as: 'UU'})
-//Value.belongsTo(Type);
-//Value.belongsTo(Attribute);
+Attribute.belongsTo(Namespace);
+Attribute.belongsTo(Domain);
 
-Type.hasMany(Attribute);
-Attribute.hasMany(Value)
+Namespace.hasMany(Domain);
+Domain.hasMany(Attribute)
 
 
 
-db.Type = Type;
+db.Namespace = Namespace;
+db.Domain = Domain;
 db.Attribute = Attribute;
-db.Value = Value;
 //db.User = User;
 
 
