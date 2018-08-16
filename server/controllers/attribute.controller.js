@@ -16,19 +16,19 @@ function get(req, res, next) {
     // }
 
     Namespace.findAll({
-    attributes: ['id','namespace'],
-    where: { id: namespace },
-    include: [{
-      model: Domain, attributes: ['id','domain'],
+      attributes: ['id','namespace'],
+      where: { id: namespace },
       include: [{
-          model: Attribute,
-          attributes: ['id','attribute'],
-          where: {
-            UUID
-          },
-          required: false
-        }]
-      }],
+        model: Domain, attributes: ['id','domain'],
+        include: [{
+            model: Attribute,
+            attributes: ['id','attribute'],
+            where: {
+              UUID
+            },
+            required: false
+          }]
+        }],
 
     })
     .then((messages) => {

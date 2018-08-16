@@ -4,6 +4,7 @@ import db from '../../config/sequelize';
 import APIError from '../helpers/APIError';
 
 const Domain = db.Domain;
+const Op = Sequelize.Op;
 
 
 function index(req, res, next) {
@@ -11,9 +12,10 @@ function index(req, res, next) {
     //   type = Post.findAll({
     //
     // }
-
+    const { namespace } = req.params;
     Domain.findAll({
-         order: [['id','ASC']]
+        where: { [Op.or]: [{NamespaceId: namespace}, {id: namespace}]  },
+        order: [['id','ASC']]
     })
     .then((messages) => {
         if (messages.length === 0) {
