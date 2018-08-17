@@ -29,14 +29,23 @@ const Value = sequelize.import('../server/models/value.model');
 
 
 Namespace.hasMany(Domain);
+Namespace.hasMany(Attribute);
+Namespace.hasMany(Value);
+
 Domain.hasMany(Attribute);
+Domain.hasMany(Value);
 
-Attribute.belongsTo(Namespace);
-Attribute.belongsTo(Domain);
+Attribute.hasMany(Value);
 
-Value.belongsTo(Namespace);
-Value.belongsTo(Domain);
-Value.belongsTo(Attribute);
+
+// Attribute.hasMany(Value);
+
+
+
+
+
+
+
 
 
 db.Namespace = Namespace;

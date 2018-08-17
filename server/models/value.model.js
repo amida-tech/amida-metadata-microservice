@@ -5,9 +5,18 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             primaryKey: true,
         },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         value: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        active: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true,
         },
         UUID: {
             type: DataTypes.UUID,

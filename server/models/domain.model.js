@@ -1,4 +1,3 @@
-
 module.exports = (sequelize, DataTypes) => {
     const Domain = sequelize.define('Domain', {
         id: {
@@ -13,7 +12,12 @@ module.exports = (sequelize, DataTypes) => {
         description: {
             type: DataTypes.STRING,
             allowNull: false,
-        }
+        },
+        active: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true,
+        },
     });
     return Domain;
 };

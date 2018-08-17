@@ -28,7 +28,7 @@ function index(req, res, next) {
         .catch(next);
     } else {
         Namespace.findAll({
-          where: { uri: namespace },
+          where: { description: namespace },
         }).then((namespace) => {
           Domain.findAll({
               where: { NamespaceId: namespace[0].dataValues.id },
