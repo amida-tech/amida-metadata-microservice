@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        uri: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
     });
 
     return Namespace;

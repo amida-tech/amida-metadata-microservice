@@ -1,22 +1,26 @@
 import express from 'express';
 import passport from 'passport';
 
-import attributeCtrl from '../controllers/attribute.controller';
+import getCtrl from '../controllers/get.controller';
 
 const router = express.Router(); // eslint-disable-line new-cap
 
 router.use(passport.authenticate('jwt', { session: false }));
 
+// Get all data for a user
 router.route('/:UUID/')
-    .get(attributeCtrl.get);
+    .get(getCtrl.get);
 
+// Get data within a namespace for a user
 router.route('/:UUID/:namespace')
-    .get(attributeCtrl.get);
+    .get(getCtrl.get);
 
+// Get data within a domain all data for a user
 router.route('/:UUID/:namespace/:domain')
-    .get(attributeCtrl.get);
+    .get(getCtrl.get);
 
+// Get data within an attribute all data for a user
 router.route('/:UUID/:namespace/:domain/:attribute')
-    .get(attributeCtrl.get);
+    .get(getCtrl.get);
 
 export default router;

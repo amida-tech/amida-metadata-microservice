@@ -30,14 +30,12 @@ const Attribute = sequelize.import('../server/models/attribute.model');
 
 
 
-
 //User.hasOne(Value, {as: 'UU'})
 Attribute.belongsTo(Namespace);
 Attribute.belongsTo(Domain);
 
 Namespace.hasMany(Domain);
 Domain.hasMany(Attribute)
-
 
 
 db.Namespace = Namespace;
