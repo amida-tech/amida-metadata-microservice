@@ -27,7 +27,7 @@ function getUUID(req, res, next) {
               model: Value,
               attributes: ['id', 'type', 'value'],
               where: {
-                UUID
+                [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }]
               },
               order: [['id','ASC']],
             }],
@@ -66,7 +66,7 @@ function getNamespace(req, res, next) {
                 model: Value,
                 attributes: ['id', 'type', 'value'],
                 where: {
-                  UUID
+                  [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }]
                 },
                 order: [['id','ASC']],
               }],
@@ -102,7 +102,7 @@ function getNamespace(req, res, next) {
                 model: Value,
                 attributes: ['id', 'type', 'value'],
                 where: {
-                  UUID
+                  [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }]
                 },
                 order: [['id','ASC']],
               }],
@@ -140,7 +140,7 @@ function getDomain(req, res, next) {
                 model: Value,
                 attributes: ['id', 'type', 'value'],
                 where: {
-                  UUID
+                  [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }]
                 },
                 order: [['id','ASC']],
               }],
@@ -179,7 +179,7 @@ function getDomain(req, res, next) {
                 required: true,
 
                 where: {
-                  UUID
+                  [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }]
                 },
                 order: [['id','ASC']],
               }],
