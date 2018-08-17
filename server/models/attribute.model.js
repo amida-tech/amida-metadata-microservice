@@ -1,4 +1,3 @@
-
 module.exports = (sequelize, DataTypes) => {
     const Attribute = sequelize.define('Attribute', {
         id: {
@@ -10,13 +9,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        uri: {
+        description: {
             type: DataTypes.STRING,
-            allowNull: false,
-        },
-        UUID: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
             allowNull: false,
         }
     });

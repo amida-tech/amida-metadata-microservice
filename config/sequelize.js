@@ -25,22 +25,24 @@ const sequelize = new Sequelize(config.postgres.db,
 const Namespace = sequelize.import('../server/models/namespace.model');
 const Domain = sequelize.import('../server/models/domain.model');
 const Attribute = sequelize.import('../server/models/attribute.model');
-//const User = sequelize.import('../server/models/user.model');
+const Value = sequelize.import('../server/models/value.model');
 
 
+Namespace.hasMany(Domain);
+Domain.hasMany(Attribute);
 
-
-//User.hasOne(Value, {as: 'UU'})
 Attribute.belongsTo(Namespace);
 Attribute.belongsTo(Domain);
 
-Namespace.hasMany(Domain);
-Domain.hasMany(Attribute)
+Value.belongsTo(Namespace);
+Value.belongsTo(Domain);
+Value.belongsTo(Attribute);
 
 
 db.Namespace = Namespace;
 db.Domain = Domain;
 db.Attribute = Attribute;
+db.Value = Value;
 //db.User = User;
 
 
