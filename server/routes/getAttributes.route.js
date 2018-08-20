@@ -1,22 +1,22 @@
-import express from 'express'
-import passport from 'passport'
+import express from 'express';
+import passport from 'passport';
 
-import getAttributesCtrl from '../controllers/getAttributes.controller'
+import getAttributesCtrl from '../controllers/getAttributes.controller';
 
-const router = express.Router() // eslint-disable-line new-cap
+const router = express.Router(); // eslint-disable-line new-cap
 
-router.use(passport.authenticate('jwt', { session: false }))
+router.use(passport.authenticate('jwt', { session: false }));
 
 // Get namespaces
 router.route('/')
-  .get(getAttributesCtrl.getNamespace)
+  .get(getAttributesCtrl.getNamespace);
 
 // Get domains
 router.route('/:namespace')
-  .get(getAttributesCtrl.getDomain)
+  .get(getAttributesCtrl.getDomain);
 
 // Get attributes
 router.route('/:namespace/:domain')
-  .get(getAttributesCtrl.getAttribute)
+  .get(getAttributesCtrl.getAttribute);
 
-export default router
+export default router;
