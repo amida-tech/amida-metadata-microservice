@@ -11,29 +11,27 @@ const Op = Sequelize.Op;
 
 
 function getUUID(req, res, next) {
-
     const { UUID } = req.params;
 
     Namespace.findAll({
-      attributes: ['id','namespace', 'description'],
-      include: [{
-        model: Domain,
-        attributes: ['id','domain', 'description'],
+        attributes: ['id', 'namespace', 'description'],
         include: [{
-            model: Attribute,
-            attributes: ['id','attribute', 'description'],
-            required: false,
+            model: Domain,
+            attributes: ['id', 'domain', 'description'],
             include: [{
-              model: Value,
-              attributes: ['id', 'type', 'value'],
-              where: {
-                [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }]
-              },
-              order: [['id','ASC']],
+                model: Attribute,
+                attributes: ['id', 'attribute', 'description'],
+                required: false,
+                include: [{
+                    model: Value,
+                    attributes: ['id', 'type', 'value'],
+                    where: {
+                        [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                    },
+                    order: [['id', 'ASC']],
+                }],
             }],
-          }]
         }],
-
     })
     .then((messages) => {
         if (messages.length === 0) {
@@ -47,34 +45,32 @@ function getUUID(req, res, next) {
 }
 
 function getNamespace(req, res, next) {
-
     const { UUID, namespace } = req.params;
 
-    if(!isNaN(namespace)) {
-      Namespace.findAll({
-        attributes: ['id','namespace', 'description'],
-        where: { id: namespace },
-        include: [{
-          model: Domain,
-          attributes: ['id','domain', 'description'],
-          order: [['id','ASC']],
-          include: [{
-              model: Attribute,
-              attributes: ['id', 'attribute'],
-              required: false,
-              include: [{
-                model: Value,
-                attributes: ['id', 'type', 'value'],
-                where: {
-                  [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }]
-                },
-                order: [['id','ASC']],
-              }],
-            }]
-          }],
-          order: [[Domain, 'id', 'ASC']],
-
-      })
+    if (!isNaN(namespace)) {
+        Namespace.findAll({
+            attributes: ['id', 'namespace', 'description'],
+            where: { id: namespace },
+            include: [{
+                model: Domain,
+                attributes: ['id', 'domain', 'description'],
+                order: [['id', 'ASC']],
+                include: [{
+                    model: Attribute,
+                    attributes: ['id', 'attribute'],
+                    required: false,
+                    include: [{
+                        model: Value,
+                        attributes: ['id', 'type', 'value'],
+                        where: {
+                            [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                        },
+                        order: [['id', 'ASC']],
+                    }],
+                }],
+            }],
+            order: [[Domain, 'id', 'ASC']],
+        })
       .then((messages) => {
           if (messages.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
@@ -85,31 +81,31 @@ function getNamespace(req, res, next) {
       })
       .catch(next);
     } else {
-      Namespace.findAll({
-        attributes: ['id','namespace', 'description'],
-        where: { namespace },
-        include: [{
-          model: Domain,
-          attributes: ['id','domain', 'description'],
-          order: [['id','ASC']],
-          include: [{
-              model: Attribute,
-              attributes: ['id','attribute'],
-              order: [['id','ASC']],
-              required: false,
+        Namespace.findAll({
+            attributes: ['id', 'namespace', 'description'],
+            where: { namespace },
+            include: [{
+                model: Domain,
+                attributes: ['id', 'domain', 'description'],
+                order: [['id', 'ASC']],
+                include: [{
+                    model: Attribute,
+                    attributes: ['id', 'attribute'],
+                    order: [['id', 'ASC']],
+                    required: false,
 
-              include: [{
-                model: Value,
-                attributes: ['id', 'type', 'value'],
-                where: {
-                  [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }]
-                },
-                order: [['id','ASC']],
-              }],
-            }]
-          }],
-          order: [[Domain, 'id', 'ASC']],
-      })
+                    include: [{
+                        model: Value,
+                        attributes: ['id', 'type', 'value'],
+                        where: {
+                            [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                        },
+                        order: [['id', 'ASC']],
+                    }],
+                }],
+            }],
+            order: [[Domain, 'id', 'ASC']],
+        })
       .then((messages) => {
           if (messages.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
@@ -117,37 +113,37 @@ function getNamespace(req, res, next) {
           } else {
               res.send(messages);
           }
-      })
+      });
     }
 }
 
 function getDomain(req, res, next) {
-
     const { UUID, namespace, domain } = req.params;
 
-    if(!isNaN(namespace)) {
-      Namespace.findAll({
-        attributes: ['id','namespace', 'description'],
-        where: { id: namespace },
-        include: [{
-          model: Domain, attributes: ['id','domain', 'description'],
-          where: { id: domain },
-          include: [{
-              model: Attribute,
-              attributes: ['id','attribute'],
-              required: false,
-              include: [{
-                model: Value,
-                attributes: ['id', 'type', 'value'],
-                where: {
-                  [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }]
-                },
-                order: [['id','ASC']],
-              }],
-            }]
-          }],
+    if (!isNaN(namespace)) {
+        Namespace.findAll({
+            attributes: ['id', 'namespace', 'description'],
+            where: { id: namespace },
+            include: [{
+                model: Domain,
+                attributes: ['id', 'domain', 'description'],
+                where: { id: domain },
+                include: [{
+                    model: Attribute,
+                    attributes: ['id', 'attribute'],
+                    required: false,
+                    include: [{
+                        model: Value,
+                        attributes: ['id', 'type', 'value'],
+                        where: {
+                            [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                        },
+                        order: [['id', 'ASC']],
+                    }],
+                }],
+            }],
 
-      })
+        })
       .then((messages) => {
           if (messages.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
@@ -158,37 +154,36 @@ function getDomain(req, res, next) {
       })
       .catch(next);
     } else {
-      Namespace.findAll({
-        attributes: ['id','namespace', 'description'],
-        where: { namespace },
+        Namespace.findAll({
+            attributes: ['id', 'namespace', 'description'],
+            where: { namespace },
 
-        include: [{
-          model: Domain,
-          attributes: ['id','domain', 'description'],
-          where: { domain },
-          required: true,
-
-          include: [{
-              model: Attribute,
-              attributes: ['id','attribute'],
-              required: true,
-
-              include: [{
-                model: Value,
-                attributes: ['id', 'type', 'value'],
+            include: [{
+                model: Domain,
+                attributes: ['id', 'domain', 'description'],
+                where: { domain },
                 required: true,
 
-                where: {
-                  [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }]
-                },
-                order: [['id','ASC']],
-              }],
+                include: [{
+                    model: Attribute,
+                    attributes: ['id', 'attribute'],
+                    required: true,
 
-            }]
+                    include: [{
+                        model: Value,
+                        attributes: ['id', 'type', 'value'],
+                        required: true,
 
-          }],
-          order: [[Domain, 'id', 'ASC']],
-      })
+                        where: {
+                            [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                        },
+                        order: [['id', 'ASC']],
+                    }],
+                }],
+
+            }],
+            order: [[Domain, 'id', 'ASC']],
+        })
       .then((messages) => {
           if (messages.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
@@ -196,7 +191,7 @@ function getDomain(req, res, next) {
           } else {
               res.send(messages);
           }
-      })
+      });
     }
 }
 

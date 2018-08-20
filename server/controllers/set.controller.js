@@ -1,50 +1,48 @@
-import httpStatus from 'http-status';
-import Sequelize from 'sequelize';
-import db from '../../config/sequelize';
-import APIError from '../helpers/APIError';
+import httpStatus from 'http-status'
+import Sequelize from 'sequelize'
+import db from '../../config/sequelize'
+import APIError from '../helpers/APIError'
 
-const Namespace = db.Namespace;
-const Domain = db.Domain;
-const Op = Sequelize.Op;
+const Namespace = db.Namespace
+const Domain = db.Domain
+const Op = Sequelize.Op
 
+function index (req, res, next) {
+  const { namespace } = req.params
 
-function index(req, res, next) {
-
-    const { namespace } = req.params;
-
-    if(!isNaN(namespace)) {
-        Domain.findAll({
-            where: { NamespaceId: namespace },
-            order: [['id', 'ASC']]
-        })
+  if (!isNaN(namespace)) {
+    Domain.findAll({
+      where: { NamespaceId: namespace },
+      order: [['id', 'ASC']]
+    })
+      .then((messages) => {
+        if (messages.length === 0) {
+          const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true)
+          next(err)
+        } else {
+          res.send(messages)
+        }
+      })
+      .catch(next)
+  } else {
+    Namespace.findAll({
+      where: { uri: namespace }
+    }).then((namespace) => {
+      Domain.findAll({
+        where: { NamespaceId: namespace[0].dataValues.id },
+        order: [['id', 'ASC']]
+      })
         .then((messages) => {
-            if (messages.length === 0) {
-                const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
-                next(err);
-            } else {
-                res.send(messages);
-            }
+          if (messages.length === 0) {
+            const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true)
+            next(err)
+          } else {
+            res.send(messages)
+          }
         })
-        .catch(next);
-    } else {
-        Namespace.findAll({
-          where: { uri: namespace },
-        }).then((namespace) => {
-          Domain.findAll({
-              where: { NamespaceId: namespace[0].dataValues.id },
-              order: [['id','ASC']]
-          })
-          .then((messages) => {
-              if (messages.length === 0) {
-                  const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
-                  next(err);
-              } else {
-                  res.send(messages);
-              }
-          })
-          .catch(next);
-        })
-    }
+        .catch(next)
+    })
+  }
 }
 
-export default { index };
+export default { index }
