@@ -20,7 +20,7 @@ router.route('/:UUID/:namespace/:domain')
   .get(getCtrl.getDomain);
 //
 // // Get data within an attribute all data for a user
-// router.route('/:UUID/:namespace/:domain/:attribute')
-//     .get(getCtrl.get);
+router.route('/:UUID/:namespace/:domain/:attribute')
+    .get(getCtrl.getAttribute);
 
 export default router;

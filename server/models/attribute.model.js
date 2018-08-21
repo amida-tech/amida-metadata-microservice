@@ -18,6 +18,12 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: true,
         },
+    }, {
+        defaultScope: {
+            where: {
+                active: true,
+            },
+        },
     });
 
     return Attribute;

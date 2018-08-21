@@ -23,6 +23,12 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
         },
+    }, {
+        defaultScope: {
+            where: {
+                active: true,
+            },
+        },
     });
 
     return Value;

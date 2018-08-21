@@ -14,17 +14,18 @@ function getUUID(req, res, next) {
     const { UUID } = req.params;
 
     Namespace.findAll({
-        attributes: ['id', 'namespace', 'description'],
+        attributes: ['namespace', 'description'],
         include: [{
             model: Domain,
-            attributes: ['id', 'domain', 'description'],
+            attributes: ['domain', 'description'],
+
             include: [{
                 model: Attribute,
-                attributes: ['id', 'attribute', 'description'],
-                required: false,
+                attributes: ['attribute', 'description'],
+
                 include: [{
                     model: Value,
-                    attributes: ['id', 'type', 'value'],
+                    attributes: ['type', 'value'],
                     where: {
                         [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
                     },
@@ -49,19 +50,18 @@ function getNamespace(req, res, next) {
 
     if (!isNaN(namespace)) {
         Namespace.findAll({
-            attributes: ['id', 'namespace', 'description'],
+            attributes: ['namespace', 'description'],
             where: { id: namespace },
             include: [{
                 model: Domain,
-                attributes: ['id', 'domain', 'description'],
+                attributes: ['domain', 'description'],
                 order: [['id', 'ASC']],
                 include: [{
                     model: Attribute,
-                    attributes: ['id', 'attribute'],
-                    required: false,
+                    attributes: ['attribute', 'description'],
                     include: [{
                         model: Value,
-                        attributes: ['id', 'type', 'value'],
+                        attributes: ['type', 'value'],
                         where: {
                             [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
                         },
@@ -82,21 +82,25 @@ function getNamespace(req, res, next) {
       .catch(next);
     } else {
         Namespace.findAll({
-            attributes: ['id', 'namespace', 'description'],
+            attributes: ['namespace', 'description'],
             where: { namespace },
             include: [{
                 model: Domain,
-                attributes: ['id', 'domain', 'description'],
+                // required: true,
+                attributes: ['domain', 'description'],
                 order: [['id', 'ASC']],
+
                 include: [{
                     model: Attribute,
-                    attributes: ['id', 'attribute'],
+                    // required: true,
+                    attributes: ['attribute', 'description'],
                     order: [['id', 'ASC']],
-                    required: false,
 
                     include: [{
                         model: Value,
-                        attributes: ['id', 'type', 'value'],
+                        // required: true,
+                        attributes: ['type', 'value'],
+
                         where: {
                             [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
                         },
@@ -122,19 +126,19 @@ function getDomain(req, res, next) {
 
     if (!isNaN(namespace)) {
         Namespace.findAll({
-            attributes: ['id', 'namespace', 'description'],
+            attributes: ['namespace', 'description'],
             where: { id: namespace },
             include: [{
                 model: Domain,
-                attributes: ['id', 'domain', 'description'],
+                attributes: ['domain', 'description'],
                 where: { id: domain },
                 include: [{
                     model: Attribute,
-                    attributes: ['id', 'attribute'],
-                    required: false,
+                    attributes: ['attribute', 'description'],
+
                     include: [{
                         model: Value,
-                        attributes: ['id', 'type', 'value'],
+                        attributes: ['type', 'value'],
                         where: {
                             [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
                         },
@@ -155,24 +159,24 @@ function getDomain(req, res, next) {
       .catch(next);
     } else {
         Namespace.findAll({
-            attributes: ['id', 'namespace', 'description'],
+            attributes: ['namespace', 'description'],
             where: { namespace },
 
             include: [{
                 model: Domain,
-                attributes: ['id', 'domain', 'description'],
+                attributes: ['domain', 'description'],
                 where: { domain },
-                required: true,
+
 
                 include: [{
                     model: Attribute,
-                    attributes: ['id', 'attribute'],
-                    required: true,
+                    attributes: ['attribute', 'description'],
 
                     include: [{
                         model: Value,
-                        attributes: ['id', 'type', 'value'],
-                        required: true,
+                        required: false,
+
+                        attributes: ['type', 'value'],
 
                         where: {
                             [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
@@ -195,4 +199,80 @@ function getDomain(req, res, next) {
     }
 }
 
-export default { getUUID, getNamespace, getDomain };
+function getAttribute(req, res, next) {
+    const { UUID, namespace, domain, attribute } = req.params;
+
+    if (!isNaN(namespace)) {
+        Namespace.findAll({
+            attributes: ['namespace', 'description'],
+            where: { id: namespace },
+            include: [{
+                model: Domain,
+                attributes: ['domain', 'description'],
+                where: { id: domain },
+                include: [{
+                    model: Attribute,
+                    attributes: ['attribute', 'description'],
+                    where: { id: attribute },
+                    include: [{
+                        model: Value,
+                        attributes: ['type', 'value'],
+                        where: {
+                            [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                        },
+                        order: [['id', 'ASC']],
+                    }],
+                }],
+            }],
+
+        })
+      .then((messages) => {
+          if (messages.length === 0) {
+              const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
+              next(err);
+          } else {
+              res.send(messages);
+          }
+      })
+      .catch(next);
+    } else {
+        Namespace.findAll({
+            attributes: ['namespace', 'description'],
+            where: { namespace },
+
+            include: [{
+                model: Domain,
+                attributes: ['domain', 'description'],
+                where: { domain },
+
+                include: [{
+                    model: Attribute,
+                    attributes: ['attribute', 'description'],
+                    where: { attribute },
+
+                    include: [{
+                        model: Value,
+                        required: false,
+                        attributes: ['type', 'value'],
+                        where: {
+                            [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                        },
+                        order: [['id', 'ASC']],
+                    }],
+                }],
+
+            }],
+            order: [[Domain, 'id', 'ASC']],
+        })
+      .then((messages) => {
+          if (messages.length === 0) {
+              const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
+              next(err);
+          } else {
+              res.send(messages);
+          }
+      });
+    }
+}
+
+export default { getUUID, getNamespace, getDomain, getAttribute };
