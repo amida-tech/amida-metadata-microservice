@@ -8,11 +8,23 @@ const Attribute = db.Attribute;
 const Value = db.Value;
 // const Op = Sequelize.Op;
 
-function setNamespace(req, res, next) {
-    const { namespace, description, active } = req.body;
-    if (namespace && description) {
 
-        Namespace.findOne({ where: { namespace } })
+// return Model
+//     .findOne({ where: condition })
+//     .then(function(obj) {
+//         if(obj) { // update
+//             return obj.update(values);
+//         }
+//         else { // insert
+//             return Model.create(values);
+//         }
+//     }
+// })
+
+function setNamespace(req, res, next) {
+    const { namespace, description, active } = req.params;
+    if (!namespace || !description) {
+        Namespace.findOne({ where: namespace })
         .then((data) => {
             if (data) {
                 data.update(namespace, description, active)
@@ -20,7 +32,7 @@ function setNamespace(req, res, next) {
                     res.send(dataUpdate);
                 });
             } else {
-                Namespace.create({ namespace, description, active })
+                Namespace.create(namespace, description, active)
                 .then((dataCreate) => {
                     res.send(dataCreate);
                 });
@@ -28,10 +40,10 @@ function setNamespace(req, res, next) {
         })
         .catch(next);
     } else if (!namespace) {
-        const err = new APIError('namespace is a required POST variable!', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
+        const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
         next(err);
     } else if (!description) {
-        const err = new APIError('description is a required POST variable!', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
+        const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
         next(err);
     }
 }

@@ -14,12 +14,12 @@ router.route('/:UUID/')
 // Get data within a namespace for a user
 router.route('/:UUID/:namespace')
   .get(getCtrl.getNamespace);
-//
-// // Get data within a domain all data for a user
+
+// Get data within a domain all data for a user
 router.route('/:UUID/:namespace/:domain')
   .get(getCtrl.getDomain);
-//
-// // Get data within an attribute all data for a user
+
+// Get data within an attribute all data for a user
 router.route('/:UUID/:namespace/:domain/:attribute')
     .get(getCtrl.getAttribute);
 
