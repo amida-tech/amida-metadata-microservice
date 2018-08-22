@@ -4,44 +4,27 @@ import APIError from '../helpers/APIError';
 
 const Namespace = db.Namespace;
 const Domain = db.Domain;
+const Attribute = db.Attribute;
+const Value = db.Value;
 // const Op = Sequelize.Op;
 
-function index(req, res, next) {
-    const { namespace } = req.params;
-
-    if (!isNaN(namespace)) {
-        Domain.findAll({
-            where: { NamespaceId: namespace },
-            order: [['id', 'ASC']],
-        })
-      .then((messages) => {
-          if (messages.length === 0) {
-              const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
-              next(err);
-          } else {
-              res.send(messages);
-          }
-      })
-      .catch(next);
-    } else {
-        Namespace.findAll({
-            where: { uri: namespace },
-        }).then((data) => {
-            Domain.findAll({
-                where: { NamespaceId: data[0].dataValues.id },
-                order: [['id', 'ASC']],
-            })
-        .then((messages) => {
-            if (messages.length === 0) {
-                const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
-                next(err);
-            } else {
-                res.send(messages);
-            }
-        })
-        .catch(next);
-        });
-    }
+function setNamespace(req, res, next) {
+  const { namespace, description, active } = req.params;
 }
 
-export default { index };
+function setDomain(req, res, next) {
+  const { namespace, domain, description, active } = req.params;
+
+}
+
+function setAttribute(req, res, next) {
+  const { domain, attribute, description, active } = req.params;
+}
+
+function setValue(req, res, next) {
+  const { attribute, value, description, active } = req.params;
+
+}
+
+
+export default { setNamespace, setDomain, setAttribute, setValue };

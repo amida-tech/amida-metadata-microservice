@@ -34,12 +34,12 @@ function getUUID(req, res, next) {
             }],
         }],
     })
-    .then((messages) => {
-        if (messages.length === 0) {
+    .then((rData) => {
+        if (rData.length === 0) {
             const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
             next(err);
         } else {
-            res.send(messages);
+            res.send(rData);
         }
     })
     .catch(next);
@@ -71,12 +71,12 @@ function getNamespace(req, res, next) {
             }],
             order: [[Domain, 'id', 'ASC']],
         })
-      .then((messages) => {
-          if (messages.length === 0) {
+      .then((rData) => {
+          if (rData.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(messages);
+              res.send(rData);
           }
       })
       .catch(next);
@@ -110,12 +110,12 @@ function getNamespace(req, res, next) {
             }],
             order: [[Domain, 'id', 'ASC']],
         })
-      .then((messages) => {
-          if (messages.length === 0) {
+      .then((rData) => {
+          if (rData.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(messages);
+              res.send(rData);
           }
       });
     }
@@ -148,12 +148,12 @@ function getDomain(req, res, next) {
             }],
 
         })
-      .then((messages) => {
-          if (messages.length === 0) {
+      .then((rData) => {
+          if (rData.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(messages);
+              res.send(rData);
           }
       })
       .catch(next);
@@ -188,12 +188,12 @@ function getDomain(req, res, next) {
             }],
             order: [[Domain, 'id', 'ASC']],
         })
-      .then((messages) => {
-          if (messages.length === 0) {
+      .then((rData) => {
+          if (rData.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(messages);
+              res.send(rData);
           }
       });
     }
@@ -226,12 +226,12 @@ function getAttribute(req, res, next) {
             }],
 
         })
-      .then((messages) => {
-          if (messages.length === 0) {
+      .then((rData) => {
+          if (rData.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(messages);
+              res.send(rData);
           }
       })
       .catch(next);
@@ -264,12 +264,12 @@ function getAttribute(req, res, next) {
             }],
             order: [[Domain, 'id', 'ASC']],
         })
-      .then((messages) => {
-          if (messages.length === 0) {
+      .then((rData) => {
+          if (rData.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(messages);
+              res.send(rData);
           }
       });
     }
