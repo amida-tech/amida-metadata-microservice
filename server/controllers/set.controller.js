@@ -11,7 +11,6 @@ const Value = db.Value;
 function setNamespace(req, res, next) {
     const { namespace, description, active } = req.body;
     if (namespace && description) {
-
         Namespace.findOne({ where: { namespace } })
         .then((data) => {
             if (data) {
@@ -37,7 +36,28 @@ function setNamespace(req, res, next) {
 }
 
 function setDomain(req, res, next) {
-    const { namespace, domain, description, active } = req.params;
+    const { namespace, domain, description, active } = req.body;
+
+
+    if (namespace && domain && description) {
+        Namespace.findOne({ where: { namespace } })
+        .then((data) => {
+
+
+          Domain.create({ namespace, description, active })
+          .then((dataCreate) => {
+              res.send(dataCreate);
+          });
+
+        })
+        .catch(next);
+    } else if (!namespace) {
+        const err = new APIError('namespace is a required POST variable!', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
+        next(err);
+    } else if (!description) {
+        const err = new APIError('description is a required POST variable!', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
+        next(err);
+    }
 
 }
 
