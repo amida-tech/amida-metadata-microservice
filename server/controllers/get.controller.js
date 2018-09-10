@@ -17,19 +17,23 @@ function getUUID(req, res, next) {
         attributes: ['namespace', 'description'],
         include: [{
             model: Domain,
+            as: 'domains',
             attributes: ['domain', 'description'],
-
+            required: false,
             include: [{
                 model: Attribute,
+                as: 'attributes',
                 attributes: ['attribute', 'description'],
-
+                required: false,
                 include: [{
                     model: Value,
+                    as: 'values',
                     attributes: ['type', 'value'],
+                    required: false,
                     where: {
                         [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
                     },
-                    order: [['id', 'ASC']],
+                    // order: [['id', 'ASC']],
                 }],
             }],
         }],
@@ -39,7 +43,7 @@ function getUUID(req, res, next) {
             const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
             next(err);
         } else {
-            res.send(rData);
+            res.send(rData[0]);
         }
     })
     .catch(next);
@@ -54,29 +58,32 @@ function getNamespace(req, res, next) {
             where: { id: namespace },
             include: [{
                 model: Domain,
+                as: 'domains',
                 attributes: ['domain', 'description'],
-                order: [['id', 'ASC']],
+                // order: [['id', 'ASC']],
                 include: [{
                     model: Attribute,
+                    as: 'attributes',
                     attributes: ['attribute', 'description'],
                     include: [{
                         model: Value,
+                        as: 'values',
                         attributes: ['type', 'value'],
                         where: {
                             [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
                         },
-                        order: [['id', 'ASC']],
+                        // order: [['id', 'ASC']],
                     }],
                 }],
             }],
-            order: [[Domain, 'id', 'ASC']],
+            // order: [[Domain, 'id', 'ASC']],
         })
       .then((rData) => {
           if (rData.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData);
+              res.send(rData[0]);
           }
       })
       .catch(next);
@@ -86,36 +93,39 @@ function getNamespace(req, res, next) {
             where: { namespace },
             include: [{
                 model: Domain,
+                as: 'domains',
                 // required: true,
                 attributes: ['domain', 'description'],
-                order: [['id', 'ASC']],
+                // order: [['id', 'ASC']],
 
                 include: [{
                     model: Attribute,
+                    as: 'attributes',
                     // required: true,
                     attributes: ['attribute', 'description'],
-                    order: [['id', 'ASC']],
+                    // order: [['id', 'ASC']],
 
                     include: [{
                         model: Value,
+                        as: 'values',
                         // required: true,
                         attributes: ['type', 'value'],
 
                         where: {
                             [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
                         },
-                        order: [['id', 'ASC']],
+                        // order: [['id', 'ASC']],
                     }],
                 }],
             }],
-            order: [[Domain, 'id', 'ASC']],
+            // order: [['domains', 'id', 'ASC']],
         })
       .then((rData) => {
           if (rData.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData);
+              res.send(rData[0]);
           }
       });
     }
@@ -130,19 +140,22 @@ function getDomain(req, res, next) {
             where: { id: namespace },
             include: [{
                 model: Domain,
+                as: 'domains',
                 attributes: ['domain', 'description'],
                 where: { id: domain },
                 include: [{
                     model: Attribute,
+                    as: 'attributes',
                     attributes: ['attribute', 'description'],
 
                     include: [{
                         model: Value,
+                        as: 'values',
                         attributes: ['type', 'value'],
                         where: {
                             [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
                         },
-                        order: [['id', 'ASC']],
+                        // order: [['id', 'ASC']],
                     }],
                 }],
             }],
@@ -153,7 +166,7 @@ function getDomain(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData);
+              res.send(rData[0]);
           }
       })
       .catch(next);
@@ -164,16 +177,19 @@ function getDomain(req, res, next) {
 
             include: [{
                 model: Domain,
+                as: 'domains',
                 attributes: ['domain', 'description'],
                 where: { domain },
 
 
                 include: [{
                     model: Attribute,
+                    as: 'attributes',
                     attributes: ['attribute', 'description'],
 
                     include: [{
                         model: Value,
+                        as: 'values',
                         required: false,
 
                         attributes: ['type', 'value'],
@@ -181,19 +197,19 @@ function getDomain(req, res, next) {
                         where: {
                             [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
                         },
-                        order: [['id', 'ASC']],
+                        // order: [['id', 'ASC']],
                     }],
                 }],
 
             }],
-            order: [[Domain, 'id', 'ASC']],
+            // order: [[Domain, 'id', 'ASC']],
         })
       .then((rData) => {
           if (rData.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData);
+              res.send(rData[0]);
           }
       });
     }
@@ -208,19 +224,22 @@ function getAttribute(req, res, next) {
             where: { id: namespace },
             include: [{
                 model: Domain,
+                as: 'domains',
                 attributes: ['domain', 'description'],
                 where: { id: domain },
                 include: [{
                     model: Attribute,
+                    as: 'attributes',
                     attributes: ['attribute', 'description'],
                     where: { id: attribute },
                     include: [{
                         model: Value,
+                        as: 'values',
                         attributes: ['type', 'value'],
                         where: {
                             [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
                         },
-                        order: [['id', 'ASC']],
+                        // order: [['id', 'ASC']],
                     }],
                 }],
             }],
@@ -231,7 +250,7 @@ function getAttribute(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData);
+              res.send(rData[0]);
           }
       })
       .catch(next);
@@ -242,34 +261,37 @@ function getAttribute(req, res, next) {
 
             include: [{
                 model: Domain,
+                as: 'domains',
                 attributes: ['domain', 'description'],
                 where: { domain },
 
                 include: [{
                     model: Attribute,
+                    as: 'attributes',
                     attributes: ['attribute', 'description'],
                     where: { attribute },
 
                     include: [{
                         model: Value,
+                        as: 'values',
                         required: false,
                         attributes: ['type', 'value'],
                         where: {
                             [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
                         },
-                        order: [['id', 'ASC']],
+                        // order: [['id', 'ASC']],
                     }],
                 }],
 
             }],
-            order: [[Domain, 'id', 'ASC']],
+            // order: [[Domain, 'id', 'ASC']],
         })
       .then((rData) => {
           if (rData.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData);
+              res.send(rData[0]);
           }
       });
     }

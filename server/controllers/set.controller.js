@@ -27,38 +27,32 @@ function setNamespace(req, res, next) {
         })
         .catch(next);
     } else if (!namespace) {
-        const err = new APIError('namespace is a required POST variable!', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
+        const err = new APIError('namespace is a required POST variable!', 'ERROR', httpStatus.NOT_FOUND, true);
         next(err);
     } else if (!description) {
-        const err = new APIError('description is a required POST variable!', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
+        const err = new APIError('description is a required POST variable!', 'ERROR', httpStatus.NOT_FOUND, true);
         next(err);
     }
 }
 
+
 function setDomain(req, res, next) {
     const { namespace, domain, description, active } = req.body;
 
-
     if (namespace && domain && description) {
-        Namespace.findOne({ where: { namespace } })
-        .then((data) => {
-
-
-          Domain.create({ namespace, description, active })
-          .then((dataCreate) => {
-              res.send(dataCreate);
-          });
-
-        })
-        .catch(next);
-    } else if (!namespace) {
-        const err = new APIError('namespace is a required POST variable!', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
-        next(err);
-    } else if (!description) {
-        const err = new APIError('description is a required POST variable!', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
+        Namespace.findOne({
+            where: { namespace },
+        }).then((dataCreate) => {
+            Domain.create({
+                namespace, description, active, NamespaceId: dataCreate.id,
+            }).then((data) => {
+                res.send(data);
+            });
+        });
+    } else {
+        const err = new APIError('namespace, domain, and description are required POST variables!', 'ERROR', httpStatus.NOT_FOUND, true);
         next(err);
     }
-
 }
 
 function setAttribute(req, res, next) {

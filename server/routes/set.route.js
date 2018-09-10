@@ -12,6 +12,9 @@ router.use(passport.authenticate('jwt', { session: false }));
 router.route('/namespace/')
   .post(setCtrl.setNamespace);
 
+router.route('/namespace/domain')
+  .post(setCtrl.setDomain);
+
 
 // Get data within a domain all data for a user
 // router.route('/domain/:namespace/:domain/:description/:active/')

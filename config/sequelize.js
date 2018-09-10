@@ -28,17 +28,17 @@ const Attribute = sequelize.import('../server/models/attribute.model');
 const Value = sequelize.import('../server/models/value.model');
 
 
-Namespace.hasMany(Domain);
+Namespace.hasMany(Domain, { as: 'domains' });
 // Namespace.hasMany(Attribute);
 // Namespace.hasMany(Value);
 // Value.belongsTo(Namespace, { through: 'value_id', foreignKey: 'NamespaceId' });
 
-Domain.hasMany(Attribute);
+Domain.hasMany(Attribute, { as: 'attributes' });
 // Domain.hasMany(Value);
 // Value.belongsTo(Domain, { through: 'value_id', foreignKey: 'DomainId' });
 
 
-Attribute.hasMany(Value);
+Attribute.hasMany(Value, { as: 'values' });
 // Value.belongsTo(Attribute, { through: 'value_id', foreignKey: 'AttributeId' });
 
 
