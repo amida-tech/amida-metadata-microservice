@@ -1,7 +1,7 @@
 import express from 'express';
 import setRoutes from './set.route';
 import getRoutes from './get.route';
-import getAttributesRoutes from './getAttributes.route';
+import viewRoutes from './view.route';
 import p from '../../package';
 
 const router = express.Router(); // eslint-disable-line new-cap
@@ -14,9 +14,9 @@ router.get(`${baseURL}/health-check`, (req, res) =>
   res.send('OK')
 );
 
-router.use(`${baseURL}/set`, setRoutes);
-router.use(`${baseURL}/get`, getRoutes);
-router.use(`${baseURL}/getAttributes`, getAttributesRoutes);
+router.use(`${baseURL}/`, setRoutes);
+router.use(`${baseURL}/`, getRoutes);
+router.use(`${baseURL}/view`, viewRoutes);
 
 
 export default router;

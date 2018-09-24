@@ -57,10 +57,40 @@ function setDomain(req, res, next) {
 
 function setAttribute(req, res, next) {
     const { domain, attribute, description, active } = req.params;
+
+    if (namespace && domain && description) {
+        Namespace.findOne({
+            where: { namespace },
+        }).then((dataCreate) => {
+            Domain.create({
+                namespace, description, active, NamespaceId: dataCreate.id,
+            }).then((data) => {
+                res.send(data);
+            });
+        });
+    } else {
+        const err = new APIError('namespace, domain, and description are required POST variables!', 'ERROR', httpStatus.NOT_FOUND, true);
+        next(err);
+    }
 }
 
 function setValue(req, res, next) {
     const { attribute, value, description, active, type } = req.params;
+
+    if (namespace && domain && description) {
+        Namespace.findOne({
+            where: { namespace },
+        }).then((dataCreate) => {
+            Domain.create({
+                namespace, description, active, NamespaceId: dataCreate.id,
+            }).then((data) => {
+                res.send(data);
+            });
+        });
+    } else {
+        const err = new APIError('namespace, domain, and description are required POST variables!', 'ERROR', httpStatus.NOT_FOUND, true);
+        next(err);
+    }
 
 }
 
