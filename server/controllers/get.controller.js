@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import Sequelize from 'sequelize';
 import db from '../../config/sequelize';
 import APIError from '../helpers/APIError';
+import Serializer from 'sequelize-to-json';
 
 const Namespace = db.Namespace;
 const Domain = db.Domain;
@@ -11,9 +12,10 @@ const Op = Sequelize.Op;
 
 
 function getUUID(req, res, next) {
-    const { UUID } = req.params;
+    const { uuid } = req.params;
 
     Namespace.findAll({
+
         attributes: ['namespace', 'description'],
         include: [{
             model: Domain,
@@ -31,7 +33,7 @@ function getUUID(req, res, next) {
                     attributes: ['type', 'value'],
                     required: false,
                     where: {
-                        [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                        [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                     },
                     // order: [['id', 'ASC']],
                 }],
@@ -39,18 +41,27 @@ function getUUID(req, res, next) {
         }],
     })
     .then((rData) => {
+
         if (rData.length === 0) {
             const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
             next(err);
         } else {
-            res.send(rData[0]);
+          rData.forEach(obj => {
+    Object.keys(obj.toJSON()).forEach(k => {
+        if (typeof obj[k] === 'object') {
+            Object.keys(obj[k]).forEach(j => obj[j] = obj[k][j]);
+        }
+    });
+});
+          
+          res.send(rData);
         }
     })
     .catch(next);
 }
 
 function getNamespace(req, res, next) {
-    const { UUID, namespace } = req.params;
+    const { uuid, namespace } = req.params;
 
     if (!isNaN(namespace)) {
         Namespace.findAll({
@@ -70,7 +81,7 @@ function getNamespace(req, res, next) {
                         as: 'values',
                         attributes: ['type', 'value'],
                         where: {
-                            [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                            [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                         },
                         // order: [['id', 'ASC']],
                     }],
@@ -112,7 +123,7 @@ function getNamespace(req, res, next) {
                         attributes: ['type', 'value'],
 
                         where: {
-                            [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                            [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                         },
                         // order: [['id', 'ASC']],
                     }],
@@ -132,7 +143,7 @@ function getNamespace(req, res, next) {
 }
 
 function getDomain(req, res, next) {
-    const { UUID, namespace, domain } = req.params;
+    const { uuid, namespace, domain } = req.params;
 
     if (!isNaN(namespace)) {
         Namespace.findAll({
@@ -153,7 +164,7 @@ function getDomain(req, res, next) {
                         as: 'values',
                         attributes: ['type', 'value'],
                         where: {
-                            [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                            [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                         },
                         // order: [['id', 'ASC']],
                     }],
@@ -195,7 +206,7 @@ function getDomain(req, res, next) {
                         attributes: ['type', 'value'],
 
                         where: {
-                            [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                            [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                         },
                         // order: [['id', 'ASC']],
                     }],
@@ -216,7 +227,7 @@ function getDomain(req, res, next) {
 }
 
 function getAttribute(req, res, next) {
-    const { UUID, namespace, domain, attribute } = req.params;
+    const { uuid, namespace, domain, attribute } = req.params;
 
     if (!isNaN(namespace)) {
         Namespace.findAll({
@@ -237,7 +248,7 @@ function getAttribute(req, res, next) {
                         as: 'values',
                         attributes: ['type', 'value'],
                         where: {
-                            [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                            [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                         },
                         // order: [['id', 'ASC']],
                     }],
@@ -277,7 +288,7 @@ function getAttribute(req, res, next) {
                         required: false,
                         attributes: ['type', 'value'],
                         where: {
-                            [Op.or]: [{ UUID }, { UUID: '00000000-0000-0000-0000-000000000000' }],
+                            [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                         },
                         // order: [['id', 'ASC']],
                     }],

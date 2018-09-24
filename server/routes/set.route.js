@@ -12,13 +12,13 @@ router.use(passport.authenticate('jwt', { session: false }));
 router.route('/namespace/')
   .post(setCtrl.setNamespace);
 
-router.route('/namespace/domain')
+router.route('/domain')
   .post(setCtrl.setDomain);
 
-router.route('/namespace/domain/attribute')
+router.route('/attribute')
   .post(setCtrl.setAttribute);
 
-router.route('/namespace/domain/attribute/value')
+router.route('/value')
   .post(setCtrl.setValue);
 
 

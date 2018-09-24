@@ -1,7 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 
-import getAttributesCtrl from '../controllers/getAttributes.controller';
+import getAttributesCtrl from '../controllers/tree.controller';
 
 const router = express.Router(); // eslint-disable-line new-cap
 

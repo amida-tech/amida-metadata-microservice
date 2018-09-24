@@ -15,18 +15,20 @@ function getNamespace(req, res, next) {
 
         include: [{
             model: Domain,
+            as: 'domains',
             required: false,
             attributes: ['id', 'domain', 'description'],
             order: [['id', 'ASC']],
 
             include: [{
                 model: Attribute,
+                as: 'attributes',
                 required: false,
                 attributes: ['id', 'attribute', 'description'],
                 order: [['id', 'ASC']],
             }],
         }],
-        order: [[Domain, 'id', 'ASC']],
+        // order: [[Domain, 'id', 'ASC']],
     })
     .then((rData) => {
         if (rData.length === 0) {
@@ -50,18 +52,20 @@ function getDomain(req, res, next) {
 
             include: [{
                 model: Domain,
+                as: 'domains',
                 required: false,
                 attributes: ['id', 'domain', 'description'],
                 order: [['id', 'ASC']],
 
                 include: [{
                     model: Attribute,
+                    as: 'attributes',
                     required: false,
                     attributes: ['id', 'attribute', 'description'],
                     order: [['id', 'ASC']],
                 }],
             }],
-            order: [[Domain, 'id', 'ASC']],
+            // order: [[Domain, 'id', 'ASC']],
         })
         .then((rData) => {
             if (rData.length === 0) {
@@ -80,18 +84,20 @@ function getDomain(req, res, next) {
 
             include: [{
                 model: Domain,
+                as: 'domains',
                 required: false,
                 attributes: ['id', 'domain', 'description'],
                 order: [['id', 'ASC']],
 
                 include: [{
                     model: Attribute,
+                    as: 'attributes',
                     required: false,
                     attributes: ['id', 'attribute', 'description'],
                     order: [['id', 'ASC']],
                 }],
             }],
-            order: [[Domain, 'id', 'ASC']],
+            // order: [[Domain, 'id', 'ASC']],
         }).then((rData) => {
             if (rData.length === 0) {
                 const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
@@ -115,6 +121,7 @@ function getAttribute(req, res, next) {
 
             include: [{
                 model: Domain,
+                as: 'domains',
                 required: false,
                 attributes: ['id', 'domain', 'description'],
                 where: { id: domain },
@@ -122,12 +129,13 @@ function getAttribute(req, res, next) {
 
                 include: [{
                     model: Attribute,
+                    as: 'attributes',
                     required: false,
                     attributes: ['id', 'attribute', 'description'],
                     order: [['id', 'ASC']],
                 }],
             }],
-      // order: [[Attribute,Domain,'id','ASC']],
+        // order: [[Attribute,Domain,'id','ASC']],
         })
       .then((rData) => {
           if (rData.length === 0) {
@@ -146,6 +154,7 @@ function getAttribute(req, res, next) {
 
             include: [{
                 model: Domain,
+                as: 'domains',
                 required: false,
                 attributes: ['id', 'domain', 'description'],
                 where: { domain },
@@ -153,12 +162,13 @@ function getAttribute(req, res, next) {
 
                 include: [{
                     model: Attribute,
+                    as: 'attributes',
                     required: false,
                     attributes: ['id', 'attribute', 'description'],
                     order: [['id', 'ASC']],
                 }],
             }],
-      // order: [[Attribute,Domain,'id','ASC']],
+       // order: [[Attribute,Domain,'id','ASC']],
         }).then((rData) => {
             if (rData.length === 0) {
                 const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);

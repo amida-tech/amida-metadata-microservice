@@ -43,11 +43,15 @@ function setDomain(req, res, next) {
         Namespace.findOne({
             where: { namespace },
         }).then((dataCreate) => {
+          // dataCreate = JSON.parse(dataCreate);
             Domain.create({
-                namespace, description, active, NamespaceId: dataCreate.id,
+                domain, description, NamespaceId: dataCreate.id,
+                // domain: "hello", description: "test", active: 1, NamespaceId: 8,
             }).then((data) => {
                 res.send(data);
             });
+
+            // res.send({dataCreate.id});
         });
     } else {
         const err = new APIError('namespace, domain, and description are required POST variables!', 'ERROR', httpStatus.NOT_FOUND, true);
@@ -56,42 +60,42 @@ function setDomain(req, res, next) {
 }
 
 function setAttribute(req, res, next) {
-    const { domain, attribute, description, active } = req.params;
+    const { domain, attribute, description, active } = req.body;
 
-    if (namespace && domain && description) {
-        Namespace.findOne({
-            where: { namespace },
+    if (attribute && domain && description) {
+        Domain.findOne({
+            where: { domain },
         }).then((dataCreate) => {
-            Domain.create({
-                namespace, description, active, NamespaceId: dataCreate.id,
+            Attribute.create({
+                attribute, description, DomainId: dataCreate.id,
             }).then((data) => {
                 res.send(data);
             });
         });
     } else {
-        const err = new APIError('namespace, domain, and description are required POST variables!', 'ERROR', httpStatus.NOT_FOUND, true);
+        const err = new APIError('domain, attribute, and description are required POST variables!', 'ERROR', httpStatus.NOT_FOUND, true);
         next(err);
     }
 }
 
 function setValue(req, res, next) {
-    const { attribute, value, description, active, type } = req.params;
+    const { attribute, value, active, type, uuid } = req.body;
 
-    if (namespace && domain && description) {
-        Namespace.findOne({
-            where: { namespace },
+    if (attribute && value && type && uuid) {
+        Attribute.findOne({
+            where: { attribute },
         }).then((dataCreate) => {
-            Domain.create({
-                namespace, description, active, NamespaceId: dataCreate.id,
+            Value.create({
+                type, value, uuid, AttributeId: dataCreate.id,
             }).then((data) => {
                 res.send(data);
             });
+              // res.send(dataCreate);
         });
     } else {
-        const err = new APIError('namespace, domain, and description are required POST variables!', 'ERROR', httpStatus.NOT_FOUND, true);
+        const err = new APIError('attribute, type, value, and uuid are required POST variables!', 'ERROR', httpStatus.NOT_FOUND, true);
         next(err);
     }
-
 }
 
 
