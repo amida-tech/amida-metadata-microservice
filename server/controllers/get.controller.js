@@ -9,7 +9,9 @@ const Attribute = db.Attribute;
 const Value = db.Value;
 const Op = Sequelize.Op;
 
+function formatResult(result) {
 
+}
 
 function getUUID(req, res, next) {
     const { uuid } = req.params;
@@ -39,12 +41,20 @@ function getUUID(req, res, next) {
             },
         },
     })
-    .then((rData) => {
-        if (rData.length === 0) {
+    .then((data) => {
+        if (data.length === 0) {
             const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
             next(err);
         } else {
-            res.send(rData);
+            // const plainData = data.map((r) => r.get({ plain: true }));
+            // Object.keys(plainData).forEach(function(key) {
+            //   console.log("key: ", key, plainData[key]);
+            //
+            // });
+
+            res.send({ namespaces: data });
+
+
         }
     })
 
@@ -80,12 +90,12 @@ function getNamespace(req, res, next) {
             }],
             // order: [[Domain, 'id', 'ASC']],
         })
-      .then((rData) => {
-          if (rData.length === 0) {
+      .then((data) => {
+          if (data.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-            res.send(rData);
+            res.send({ namespaces: data });
           }
       })
       .catch(next);
@@ -122,12 +132,12 @@ function getNamespace(req, res, next) {
             }],
             // order: [['domains', 'id', 'ASC']],
         })
-      .then((rData) => {
-          if (rData.length === 0) {
+      .then((data) => {
+          if (data.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-            res.send(rData);
+            res.send({ namespaces: data });
           }
       });
     }
@@ -163,12 +173,12 @@ function getDomain(req, res, next) {
             }],
 
         })
-      .then((rData) => {
-          if (rData.length === 0) {
+      .then((data) => {
+          if (data.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData);
+              res.send({ namespaces: data });
           }
       })
       .catch(next);
@@ -206,12 +216,12 @@ function getDomain(req, res, next) {
             }],
             // order: [[Domain, 'id', 'ASC']],
         })
-      .then((rData) => {
-          if (rData.length === 0) {
+      .then((data) => {
+          if (data.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData);
+              res.send({ namespaces: data });
           }
       });
     }
@@ -247,12 +257,12 @@ function getAttribute(req, res, next) {
             }],
 
         })
-      .then((rData) => {
-          if (rData.length === 0) {
+      .then((data) => {
+          if (data.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData);
+              res.send({ namespaces: data });
           }
       })
       .catch(next);
@@ -288,12 +298,12 @@ function getAttribute(req, res, next) {
             }],
             // order: [[Domain, 'id', 'ASC']],
         })
-      .then((rData) => {
-          if (rData.length === 0) {
+      .then((data) => {
+          if (data.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData);
+              res.send({ namespaces: data });
           }
       });
     }

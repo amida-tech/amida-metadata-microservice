@@ -30,12 +30,12 @@ function getNamespace(req, res, next) {
         }],
         // order: [[Domain, 'id', 'ASC']],
     })
-    .then((rData) => {
-        if (rData.length === 0) {
+    .then((data) => {
+        if (data.length === 0) {
             const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
             next(err);
         } else {
-            res.send(rData);
+            res.send({ namespaces: data });
         }
     })
     .catch(next);
@@ -67,12 +67,12 @@ function getDomain(req, res, next) {
             }],
             // order: [[Domain, 'id', 'ASC']],
         })
-        .then((rData) => {
-            if (rData.length === 0) {
+        .then((data) => {
+            if (data.length === 0) {
                 const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
                 next(err);
             } else {
-                res.send(rData);
+                res.send({ namespaces: data });
             }
         })
         .catch(next);
@@ -98,12 +98,12 @@ function getDomain(req, res, next) {
                 }],
             }],
             // order: [[Domain, 'id', 'ASC']],
-        }).then((rData) => {
-            if (rData.length === 0) {
+        }).then((data) => {
+            if (data.length === 0) {
                 const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
                 next(err);
             } else {
-                res.send(rData);
+                res.send({ namespaces: data });
             }
         })
       .catch(next);
@@ -137,12 +137,12 @@ function getAttribute(req, res, next) {
             }],
         // order: [[Attribute,Domain,'id','ASC']],
         })
-      .then((rData) => {
-          if (rData.length === 0) {
+      .then((data) => {
+          if (data.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData);
+              res.send({ namespaces: data });
           }
       })
       .catch(next);
@@ -169,12 +169,12 @@ function getAttribute(req, res, next) {
                 }],
             }],
        // order: [[Attribute,Domain,'id','ASC']],
-        }).then((rData) => {
-            if (rData.length === 0) {
+        }).then((data) => {
+            if (data.length === 0) {
                 const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
                 next(err);
             } else {
-                  res.send(rData);
+                  res.send({ namespaces: data });
             }
         })
         .catch(next);
