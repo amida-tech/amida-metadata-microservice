@@ -28,8 +28,14 @@ module.exports = (sequelize, DataTypes) => {
             where: {
                 active: true,
             },
-        },
+        }
     });
+
+  //   Value.prototype.toJSON =  function () {
+  //   var values = this.get({ plain: true });
+  //
+  //   return values;
+  // }
 
     return Value;
 };

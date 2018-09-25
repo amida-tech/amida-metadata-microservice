@@ -26,5 +26,12 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
     });
+
+  //   Domain.prototype.toJSON =  function () {
+  //   var values = Object.assign({}, this.get({ plain: true }));
+  //
+  //   return values;
+  // }
+
     return Domain;
 };

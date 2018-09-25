@@ -2,7 +2,6 @@ import httpStatus from 'http-status';
 import Sequelize from 'sequelize';
 import db from '../../config/sequelize';
 import APIError from '../helpers/APIError';
-import Serializer from 'sequelize-to-json';
 
 const Namespace = db.Namespace;
 const Domain = db.Domain;
@@ -11,23 +10,23 @@ const Value = db.Value;
 const Op = Sequelize.Op;
 
 
+
 function getUUID(req, res, next) {
     const { uuid } = req.params;
 
     Namespace.findAll({
-
         attributes: ['namespace', 'description'],
-        include: [{
+        include: {
             model: Domain,
             as: 'domains',
             attributes: ['domain', 'description'],
             required: false,
-            include: [{
+            include: {
                 model: Attribute,
                 as: 'attributes',
                 attributes: ['attribute', 'description'],
                 required: false,
-                include: [{
+                include: {
                     model: Value,
                     as: 'values',
                     attributes: ['type', 'value'],
@@ -36,27 +35,19 @@ function getUUID(req, res, next) {
                         [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                     },
                     // order: [['id', 'ASC']],
-                }],
-            }],
-        }],
+                },
+            },
+        },
     })
     .then((rData) => {
-
         if (rData.length === 0) {
             const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
             next(err);
         } else {
-          rData.forEach(obj => {
-    Object.keys(obj.toJSON()).forEach(k => {
-        if (typeof obj[k] === 'object') {
-            Object.keys(obj[k]).forEach(j => obj[j] = obj[k][j]);
-        }
-    });
-});
-          
-          res.send(rData);
+            res.send(rData);
         }
     })
+
     .catch(next);
 }
 
@@ -94,7 +85,7 @@ function getNamespace(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData[0]);
+            res.send(rData);
           }
       })
       .catch(next);
@@ -136,7 +127,7 @@ function getNamespace(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData[0]);
+            res.send(rData);
           }
       });
     }
@@ -177,7 +168,7 @@ function getDomain(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData[0]);
+              res.send(rData);
           }
       })
       .catch(next);
@@ -220,7 +211,7 @@ function getDomain(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData[0]);
+              res.send(rData);
           }
       });
     }
@@ -261,7 +252,7 @@ function getAttribute(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData[0]);
+              res.send(rData);
           }
       })
       .catch(next);
@@ -302,7 +293,7 @@ function getAttribute(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send(rData[0]);
+              res.send(rData);
           }
       });
     }

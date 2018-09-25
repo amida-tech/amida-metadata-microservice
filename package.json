@@ -57,7 +57,6 @@
     "pg-hstore": "2.3.2",
     "run-sequence": "^1.1.5",
     "sequelize": "false4.38.0",
-    "sequelize-to-json": "false0.10.3",
     "snyk": "^1.69.4",
     "standard": "false11.0.1",
     "supertest": "^3.0.0",

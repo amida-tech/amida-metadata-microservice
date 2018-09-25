@@ -27,5 +27,11 @@ module.exports = (sequelize, DataTypes) => {
         },
     });
 
+  //   Namespace.prototype.toJSON =  function () {
+  //   var values = this.get();
+  //   console.log('DOES THIS HAPPEN')
+  //   return values;
+  // }
+
     return Namespace;
 };

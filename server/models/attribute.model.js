@@ -27,5 +27,14 @@ module.exports = (sequelize, DataTypes) => {
         },
     });
 
+    // Attribute.prototype.toJSON =  function () {
+    //   this.map(function(data) {
+    //     return data.toJSON();
+    //   });
+    // var values = Object.assign({}, this.get({ plain: true }));
+
+    // return values;
+  
+
     return Attribute;
 };

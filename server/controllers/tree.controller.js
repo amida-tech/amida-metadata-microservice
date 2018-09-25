@@ -174,7 +174,7 @@ function getAttribute(req, res, next) {
                 const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
                 next(err);
             } else {
-                res.send(rData);
+                  res.send(rData);
             }
         })
         .catch(next);
