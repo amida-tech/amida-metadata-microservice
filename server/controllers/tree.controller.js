@@ -45,7 +45,7 @@ function getDomain(req, res, next) {
     const { namespace } = req.params;
 
     if (!isNaN(namespace)) {
-        Namespace.findAll({
+        Namespace.findOne({
             attributes: ['id', 'namespace', 'description'],
             required: false,
             where: { id: namespace },
@@ -77,7 +77,7 @@ function getDomain(req, res, next) {
         })
         .catch(next);
     } else {
-        Namespace.findAll({
+        Namespace.findOne({
             attributes: ['id', 'namespace', 'description'],
             required: false,
             where: { namespace },

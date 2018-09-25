@@ -65,14 +65,13 @@ function getNamespace(req, res, next) {
     const { uuid, namespace } = req.params;
 
     if (!isNaN(namespace)) {
-        Namespace.findAll({
+        Namespace.findOne({
             attributes: ['namespace', 'description'],
             where: { id: namespace },
             include: [{
                 model: Domain,
                 as: 'domains',
                 attributes: ['domain', 'description'],
-                // order: [['id', 'ASC']],
                 include: [{
                     model: Attribute,
                     as: 'attributes',
@@ -84,11 +83,10 @@ function getNamespace(req, res, next) {
                         where: {
                             [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                         },
-                        // order: [['id', 'ASC']],
+
                     }],
                 }],
             }],
-            // order: [[Domain, 'id', 'ASC']],
         })
       .then((data) => {
           if (data.length === 0) {
@@ -100,44 +98,40 @@ function getNamespace(req, res, next) {
       })
       .catch(next);
     } else {
-        Namespace.findAll({
+        Namespace.findOne({
             attributes: ['namespace', 'description'],
             where: { namespace },
             include: [{
                 model: Domain,
                 as: 'domains',
-                // required: true,
+                required: false,
                 attributes: ['domain', 'description'],
-                // order: [['id', 'ASC']],
 
                 include: [{
                     model: Attribute,
                     as: 'attributes',
-                    // required: true,
+                    required: false,
                     attributes: ['attribute', 'description'],
-                    // order: [['id', 'ASC']],
 
                     include: [{
                         model: Value,
                         as: 'values',
-                        // required: true,
+                        required: false,
                         attributes: ['type', 'value'],
 
                         where: {
                             [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                         },
-                        // order: [['id', 'ASC']],
                     }],
                 }],
             }],
-            // order: [['domains', 'id', 'ASC']],
         })
       .then((data) => {
           if (data.length === 0) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-            res.send({ namespaces: data });
+            res.send(data);
           }
       });
     }
@@ -147,14 +141,9 @@ function getDomain(req, res, next) {
     const { uuid, namespace, domain } = req.params;
 
     if (!isNaN(namespace)) {
-        Namespace.findAll({
-            attributes: ['namespace', 'description'],
-            where: { id: namespace },
-            include: [{
-                model: Domain,
-                as: 'domains',
-                attributes: ['domain', 'description'],
-                where: { id: domain },
+        Domain.findOne({
+              attributes: ['domain', 'description'],
+              where: { id: domain },
                 include: [{
                     model: Attribute,
                     as: 'attributes',
@@ -170,7 +159,6 @@ function getDomain(req, res, next) {
                         // order: [['id', 'ASC']],
                     }],
                 }],
-            }],
 
         })
       .then((data) => {
@@ -178,21 +166,15 @@ function getDomain(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send({ namespaces: data });
+              res.send(data);
           }
       })
       .catch(next);
     } else {
-        Namespace.findAll({
-            attributes: ['namespace', 'description'],
-            where: { namespace },
+        Domain.findOne({
 
-            include: [{
-                model: Domain,
-                as: 'domains',
-                attributes: ['domain', 'description'],
-                where: { domain },
-
+            attributes: ['domain', 'description'],
+            where: { domain },
 
                 include: [{
                     model: Attribute,
@@ -213,7 +195,6 @@ function getDomain(req, res, next) {
                     }],
                 }],
 
-            }],
             // order: [[Domain, 'id', 'ASC']],
         })
       .then((data) => {
@@ -221,7 +202,7 @@ function getDomain(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send({ namespaces: data });
+              res.send(data);
           }
       });
     }
@@ -231,17 +212,7 @@ function getAttribute(req, res, next) {
     const { uuid, namespace, domain, attribute } = req.params;
 
     if (!isNaN(namespace)) {
-        Namespace.findAll({
-            attributes: ['namespace', 'description'],
-            where: { id: namespace },
-            include: [{
-                model: Domain,
-                as: 'domains',
-                attributes: ['domain', 'description'],
-                where: { id: domain },
-                include: [{
-                    model: Attribute,
-                    as: 'attributes',
+        Attribute.findOne({
                     attributes: ['attribute', 'description'],
                     where: { id: attribute },
                     include: [{
@@ -253,8 +224,7 @@ function getAttribute(req, res, next) {
                         },
                         // order: [['id', 'ASC']],
                     }],
-                }],
-            }],
+
 
         })
       .then((data) => {
@@ -262,24 +232,12 @@ function getAttribute(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send({ namespaces: data });
+              res.send(data);
           }
       })
       .catch(next);
     } else {
-        Namespace.findAll({
-            attributes: ['namespace', 'description'],
-            where: { namespace },
-
-            include: [{
-                model: Domain,
-                as: 'domains',
-                attributes: ['domain', 'description'],
-                where: { domain },
-
-                include: [{
-                    model: Attribute,
-                    as: 'attributes',
+        Attribute.findOne({
                     attributes: ['attribute', 'description'],
                     where: { attribute },
 
@@ -293,9 +251,9 @@ function getAttribute(req, res, next) {
                         },
                         // order: [['id', 'ASC']],
                     }],
-                }],
+                
 
-            }],
+
             // order: [[Domain, 'id', 'ASC']],
         })
       .then((data) => {
@@ -303,7 +261,7 @@ function getAttribute(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-              res.send({ namespaces: data });
+              res.send(data);
           }
       });
     }
