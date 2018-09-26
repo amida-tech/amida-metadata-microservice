@@ -53,12 +53,7 @@ function getUUID(req, res, next) {
             // });
 
             res.send({ namespaces: data });
-
-
-        }
-    })
-
-    .catch(next);
+    }).catch(next);
 }
 
 function getNamespace(req, res, next) {
@@ -93,7 +88,7 @@ function getNamespace(req, res, next) {
               const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
               next(err);
           } else {
-            res.send({ namespaces: data });
+              res.send({ namespaces: data });
           }
       })
       .catch(next);
@@ -156,7 +151,6 @@ function getDomain(req, res, next) {
                         where: {
                             [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                         },
-                        // order: [['id', 'ASC']],
                     }],
                 }],
 
@@ -191,11 +185,9 @@ function getDomain(req, res, next) {
                         where: {
                             [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                         },
-                        // order: [['id', 'ASC']],
                     }],
                 }],
 
-            // order: [[Domain, 'id', 'ASC']],
         })
       .then((data) => {
           if (data.length === 0) {
@@ -222,7 +214,6 @@ function getAttribute(req, res, next) {
                         where: {
                             [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                         },
-                        // order: [['id', 'ASC']],
                     }],
 
 
@@ -249,12 +240,7 @@ function getAttribute(req, res, next) {
                         where: {
                             [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                         },
-                        // order: [['id', 'ASC']],
                     }],
-                
-
-
-            // order: [[Domain, 'id', 'ASC']],
         })
       .then((data) => {
           if (data.length === 0) {
