@@ -17,18 +17,19 @@ function getUUID(req, res, next) {
     const { uuid } = req.params;
 
     Namespace.findAll({
+        // nest: true, raw: true, mapToModel: true,
         attributes: ['namespace', 'description'],
-        include: {
+        include: [{
             model: Domain,
             as: 'domains',
             attributes: ['domain', 'description'],
             required: false,
-            include: {
+            include: [{
                 model: Attribute,
                 as: 'attributes',
                 attributes: ['attribute', 'description'],
                 required: false,
-                include: {
+                include: [{
                     model: Value,
                     as: 'values',
                     attributes: ['type', 'value'],
@@ -37,24 +38,23 @@ function getUUID(req, res, next) {
                         [Op.or]: [{ uuid }, { uuid: '00000000-0000-0000-0000-000000000000' }],
                     },
                     // order: [['id', 'ASC']],
-                },
-            },
-        },
+                }],
+            }],
+        }],
     })
     .then((data) => {
-        if (data.length === 0) {
-            const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
-            next(err);
-        } else {
-            // const plainData = data.map((r) => r.get({ plain: true }));
-            // Object.keys(plainData).forEach(function(key) {
-            //   console.log("key: ", key, plainData[key]);
-            //
-            // });
 
-            res.send({ namespaces: data });
-    }).catch(next);
-}
+            if (data.length === 0) {
+                const err = new APIError('There were no results', 'NO_RESULTS', httpStatus.NOT_FOUND, true);
+                next(err);
+            } else {
+              res.send({ namespaces: data });
+            }
+
+
+            })
+             .catch(next);
+        }
 
 function getNamespace(req, res, next) {
     const { uuid, namespace } = req.params;
