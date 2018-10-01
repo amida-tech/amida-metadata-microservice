@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
         namespace: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
         },
         description: {
             type: DataTypes.STRING,

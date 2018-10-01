@@ -42,7 +42,7 @@ Attribute.hasMany(Value, { as: 'values' });
 // Value.belongsTo(Attribute, { through: 'value_id', foreignKey: 'AttributeId' });
 
 
-sequelize.sync();
+//sequelize.sync();
 
 db.Namespace = Namespace;
 db.Domain = Domain;

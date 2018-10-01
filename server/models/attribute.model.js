@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
         attribute: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
         },
         description: {
             type: DataTypes.STRING,
@@ -34,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     // var values = Object.assign({}, this.get({ plain: true }));
 
     // return values;
-  
+
 
     return Attribute;
 };

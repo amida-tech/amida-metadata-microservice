@@ -52,24 +52,6 @@ yarn start
 DEBUG=amida-messaging-microservice:* yarn start
 ```
 
-## Tests
-
-Create a JWT with the username value 'user0' and set `MESSAGING_SERVICE_AUTOMATED_TEST_JWT={token}` in your .env file or an evironment variable. You can easily create a token using the amida-auth-microservice
-
-```sh
-# Run tests written in ES6
-# Make sure .env.test exists
-yarn test
-
-# Run test along with code coverage
-yarn test:coverage
-
-# Run tests on file change
-yarn test:watch
-
-# Run tests enforcing code coverage (configured via .istanbul.yml)
-yarn test:check-coverage
-```
 
 ## Lint
 
@@ -100,52 +82,6 @@ Note: This is optional. It is here in its own section because it is complicated 
 
 # Deployment
 
-## Deployment Via Docker
-
-Docker deployment requires two docker containers:
-- An instance of the official Postgres docker image (see: https://hub.docker.com/_/postgres/).
-- An instance of this service's docker image (see: https://hub.docker.com/r/amidatech/messaging-service/).
-
-The Postgres container must be running _before_ the messaging-service container is started because, upon initial run, the messaging-service container defines the schema within the Postgres database.
-
-Also, the containers communicate via a docker network. Therefore,
-
-1. First, create the Docker network:
-
-```sh
-docker network create {DOCKER_NETWORK_NAME}
-```
-
-2. Start the postgres container:
-
-```sh
-docker run -d --name {MESSAGING_SERVICE_PG_HOST} --network {DOCKER_NETWORK_NAME} \
--e POSTGRES_DB={MESSAGING_SERVICE_PG_DB} \
--e POSTGRES_USER={MESSAGING_SERVICE_PG_USER} \
--e POSTGRES_PASSWORD={MESSAGING_SERVICE_PG_PASSWORD} \
-postgres:9.6
-```
-
-3. Create a `.env` file for use by this service's docker container. A good starting point is `.env.production`.
-
-Note: To make push notifications work, follow the steps in section [Enabling Push Notifications with the Notifications Microservice](#Enabling-Push-Notifications-with-the-Notifications-Microservice)
-
-Note: If you are testing deploying this service in conjunction with other services or to connect to a specific front-end client it is vital that the JWT_SECRET environment variables match up between the different applications.
-
-```sh
-docker run -d -p 4001:4001 \
---name amida-messaging-microservice --network {DOCKER_NETWORK_NAME} \
--v {ABSOLUTE_PATH_TO_YOUR_ENV_FILE}:/app/.env:ro \
-amidatech/messaging-service
-```
-
-### With docker-compose
-
-Alternatively, there is also a docker-compose.yml file. Therefore, you can:
-
-```sh
-docker-compose up
-```
 
 ## Deployment to AWS with Packer and Terraform
 
