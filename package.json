@@ -53,9 +53,9 @@
     "pg": "6.1.6",
     "pg-hstore": "2.3.2",
     "run-sequence": "^1.1.5",
-    "sequelize": "false4.38.0",
+    "sequelize": "^4.38.0",
     "snyk": "^1.69.4",
-    "standard": "false11.0.1",
+    "standard": "^11.0.1",
     "supertest": "^3.0.0",
     "supertest-as-promised": "4.0.2",
     "winston": "2.3.0"
@@ -79,7 +79,7 @@
     "gulp-nodemon": "^2.0.6",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
-    "husky": "^1.2.0",
+    "husky": "1.2.1",
     "istanbul": "1.1.0-alpha.1",
     "mocha": "3.2.0"
   },
