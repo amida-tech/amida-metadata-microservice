@@ -1,5 +1,7 @@
 # amida-metadata-microservice
 
+[![Known Vulnerabilities](https://snyk.io/test/github/amida-tech/amida-metadata-microservice/badge.svg)](https://snyk.io/test/github/amida-tech/amida-metadata-microservice)
+
 # Table of Contents
 
   - [Design](#design)
