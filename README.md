@@ -1,4 +1,9 @@
-# amida-metadata-microservice
+# Amida Metadata Microservice
+
+[![Known Vulnerabilities](https://snyk.io/test/github/amida-tech/amida-metadata-microservice/badge.svg)](https://snyk.io/test/github/amida-tech/amida-metadata-microservice)
+[![dependencies Status](https://david-dm.org/amida-tech/amida-metadata-microservice/status.svg)](https://david-dm.org/amida-tech/amida-metadata-microservice)
+[![devDependencies Status](https://david-dm.org/amida-tech/amida-metadata-microservice/dev-status.svg)](https://david-dm.org/amida-tech/amida-metadata-microservice?type=dev)
+
 
 # Table of Contents
 
